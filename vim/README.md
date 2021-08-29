@@ -1,7 +1,7 @@
 # VIM Setup
 
 ```
-brew install neovim python nodejs mono cmake
+brew install neovim python nodejs mono cmake ripgrep
 cd ~/.config/nvim 
 vim init.vim
 ```
