@@ -2,6 +2,7 @@
 " Sebastian Rindom
 
 call plug#begin()
+  Plug 'dense-analysis/ale'
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'projekt0n/github-nvim-theme'
@@ -9,11 +10,14 @@ call plug#begin()
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'tpope/vim-surround'
   Plug 'prettier/vim-prettier', {
-    \ 'do': 'yarn install',
-    \ 'branch': 'release/0.x'
-    \ }
-  Plug 'valloric/youcompleteme'
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'junegunn/fzf.vim'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'epmatsw/ag.vim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'rakr/vim-one'
 call plug#end()
 
 nnoremap <leader>n :NERDTreeFocus<CR>
@@ -40,6 +44,7 @@ set nohlsearch                  " meh
 set bs=2                        " fix backspacing in insert mode
 set bg=light                    " better contrast
 set colorcolumn=81              " show me when my lines are too long
+highlight ColorColumn ctermbg=16
 
 " Expand tabs in C files to spaces
 au BufRead,BufNewFile *.{c,h,java,py,js,ts,vim} set expandtab
@@ -76,6 +81,10 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
+" Airline
+" colorscheme one
+" set background=dark
+let g:airline_theme='one'
 
 " For Macros across multiple lines
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
@@ -84,5 +93,18 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
+
+" ALE Lint
+let b:ale_fixers = ['prettier', 'eslint']
+let g:ale_fix_on_save = 1
+
+" Nerdtree
+let NERDTreeShowHidden=1
+
+" FZF
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <Leader>f :Rg<CR>
+
+autocmd BufWritePre *.md,*.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html silent! PrettierAsync
 
 
