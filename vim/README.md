@@ -2,8 +2,6 @@
 
 ```
 brew install neovim python nodejs mono cmake ripgrep
-cd ~/.config/nvim 
-vim init.vim
 ```
 
 Install `vim-plug`
@@ -14,6 +12,8 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 Copy contents from `.vimrc` to `init.vim`:
 ```
+cd ~/.config/nvim 
+vim init.vim
 :source %
 :PlugInstall
 ```
