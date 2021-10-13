@@ -47,9 +47,9 @@ set colorcolumn=81              " show me when my lines are too long
 highlight ColorColumn ctermbg=16
 
 " Expand tabs in C files to spaces
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,ts,vim} set expandtab
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,ts,vim} set shiftwidth=2
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,ts,vim} set tabstop=2
+au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set expandtab
+au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set shiftwidth=2
+au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set tabstop=2
 
 " Do not expand tabs in assembly file.  Make them 8 chars wide.
 au BufRead,BufNewFile *.s set noexpandtab
@@ -95,7 +95,7 @@ function! ExecuteMacroOverVisualRange()
 endfunction
 
 " ALE Lint
-let b:ale_fixers = ['prettier', 'eslint']
+let b:ale_fixers = ['eslint']
 let g:ale_fix_on_save = 1
 
 " Nerdtree
