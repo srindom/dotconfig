@@ -4,10 +4,13 @@
 call plug#begin()
   Plug 'dense-analysis/ale'
   Plug 'pangloss/vim-javascript'
+  Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'mxw/vim-jsx'
+  Plug 'HerringtonDarkholme/yats.vim'
   Plug 'projekt0n/github-nvim-theme'
   Plug 'preservim/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'github/copilot.vim'
   Plug 'tpope/vim-surround'
   Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -44,12 +47,14 @@ set nohlsearch                  " meh
 set bs=2                        " fix backspacing in insert mode
 set bg=light                    " better contrast
 set colorcolumn=81              " show me when my lines are too long
+
 highlight ColorColumn ctermbg=16
+highlight SpellBad ctermfg=009 ctermbg=011
 
 " Expand tabs in C files to spaces
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set expandtab
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set shiftwidth=2
-au BufRead,BufNewFile *.{c,h,java,py,js,jsx,json,ts,vim} set tabstop=2
+au BufRead,BufNewFile *.{md,c,h,java,py,js,tsx,jsx,json,ts,vim,rs} set expandtab
+au BufRead,BufNewFile *.{md,c,h,java,py,js,tsx,jsx,json,ts,vim,rs} set shiftwidth=2
+au BufRead,BufNewFile *.{md,c,h,java,py,js,tsx,jsx,json,ts,vim,rs} set tabstop=2
 
 " Do not expand tabs in assembly file.  Make them 8 chars wide.
 au BufRead,BufNewFile *.s set noexpandtab
@@ -111,6 +116,19 @@ autocmd BufWritePre *.md,*.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Leader><space> coc#refresh()
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 inoremap <silent><expr> <Tab>
