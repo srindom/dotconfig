@@ -2,9 +2,11 @@
 " Sebastian Rindom
 
 call plug#begin()
+  Plug 'ggandor/leap.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'sindrets/diffview.nvim'
   Plug 'dense-analysis/ale'
   Plug 'pangloss/vim-javascript'
-  Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'mxw/vim-jsx'
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'projekt0n/github-nvim-theme'
@@ -12,6 +14,8 @@ call plug#begin()
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'github/copilot.vim'
   Plug 'tpope/vim-surround'
+  Plug 'f-person/git-blame.nvim'
+  Plug 'liuchengxu/vim-clap'
   Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
@@ -20,8 +24,12 @@ call plug#begin()
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'epmatsw/ag.vim'
   Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   Plug 'rakr/vim-one'
 call plug#end()
+set termguicolors
+let &t_8f = "\e[38;2;%lu;%lu;%lum"
+let &t_8b = "\e[48;2;%lu;%lu;%lum"
 
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
@@ -64,6 +72,15 @@ au BufRead,BufNewFile *.s set tabstop=8
 " Show syntax
 syntax on
 
+nnoremap th  :tabfirst<CR>
+nnoremap tk  :tabnext<CR>
+nnoremap tj  :tabprev<CR>
+nnoremap tl  :tablast<CR>
+nnoremap tt  :tabedit<Space>
+nnoremap tn  :tabnext<Space>
+nnoremap tm  :tabm<Space>
+nnoremap td  :tabclose<CR>
+
 " For switching between many opened file by using ctrl+l or ctrl+h
 map <C-J> :next <CR>
 map <C-K> :prev <CR>
@@ -71,6 +88,7 @@ map <C-K> :prev <CR>
 " Spelling toggle via F9 and F10
 map <F9> <Esc>:setlocal spell spelllang=en_us<CR>
 map <F10> <Esc>:setlocal nospell<CR>
+
 " Continue comments on new lines
 set formatoptions+=r
 
@@ -87,8 +105,8 @@ imap <left> <nop>
 imap <right> <nop>
 
 " Airline
-" colorscheme one
-" set background=dark
+colorscheme one
+set background=dark
 let g:airline_theme='one'
 
 " For Macros across multiple lines
@@ -106,8 +124,11 @@ let g:ale_fix_on_save = 1
 " Nerdtree
 let NERDTreeShowHidden=1
 
+" vim-clap
+let g:clap_layout = { 'relative': 'editor' }
+
 " FZF
-nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-p> :Clap files<CR>
 nnoremap <silent> <Leader>f :Rg<CR>
 
 autocmd BufWritePre *.md,*.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html silent! PrettierAsync
@@ -135,3 +156,6 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
+
+
+lua require('leap').set_default_keymaps()
